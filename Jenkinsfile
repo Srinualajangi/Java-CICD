@@ -6,6 +6,7 @@ pipeline {
     agent any
     tools {
         maven 'Maven 3.5.4' // Use the name you provided in the Global Tool Configuration
+        sonarQube 'SonarQube' // Ensure this matches the name in Global Tool Configuration
     }
     environment {
         PATH = "/opt/apache-maven-3.5.4/bin:$PATH"
@@ -37,7 +38,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     echo "----------- SonarQube analysis started ----------"
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://your-sonarqube-server:9000/"
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
                     echo "----------- SonarQube analysis completed ----------"
                 }
             }
