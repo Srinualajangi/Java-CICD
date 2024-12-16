@@ -9,7 +9,7 @@ pipeline {
         sonarQube 'Sonarqube' // Use the name you provided in the Global Tool Configuration
     }
     environment {
-        PATH = "/opt/apache-maven-3.9.4/bin:$PATH"
+        PATH = "/opt/apache-maven-3.5.4/bin:$PATH"
     }
     stages {
         stage('Checkout') {
@@ -33,10 +33,10 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
-                scannerHome = tool 'Sonarqube'
+                scannerHome = tool name: 'Sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
             }
             steps {
-                withSonarQubeEnv('Sonarqube') {
+                withSonarQubeEnv('SonarQube') {
                     echo "----------- SonarQube analysis started ----------"
                     sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
                     echo "----------- SonarQube analysis completed ----------"
