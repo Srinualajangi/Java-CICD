@@ -4,6 +4,10 @@ def version   = '2.1.2'
 
 pipeline {
     agent any
+    tools {
+        maven 'Maven 3.9.4' // Use the name you provided in the Global Tool Configuration
+        sonarQube 'Sonarqube' // Use the name you provided in the Global Tool Configuration
+    }
     environment {
         PATH = "/opt/apache-maven-3.9.4/bin:$PATH"
     }
@@ -29,11 +33,13 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
-                scannerHome = tool 'satish-sonarqube-scanner'
+                scannerHome = tool 'Sonarqube'
             }
             steps {
                 withSonarQubeEnv('SonarQube') {
+                    echo "----------- SonarQube analysis started ----------"
                     sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
+                    echo "----------- SonarQube analysis completed ----------"
                 }
             }
         }
@@ -53,7 +59,18 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Nexus Publish Started --------------->'
-                    sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://ec2-18-232-168-152.compute-1.amazonaws.com:8081/repository/maven-releases/'
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: 'ec2-18-232-168-152.compute-1.amazonaws.com:8081',
+                        groupId: 'com.example',
+                        version: version,
+                        repository: 'maven-releases',
+                        credentialsId: 'nexus-cred',
+                        artifacts: [
+                            [artifactId: 'sample_app', classifier: '', file: 'target/sample_app.jar', type: 'jar']
+                        ]
+                    )
                     echo '<--------------- Nexus Publish Ended --------------->'
                 }
             }
