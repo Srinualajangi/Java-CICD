@@ -6,7 +6,6 @@ pipeline {
     agent any
     tools {
         maven 'Maven 3.5.4' // Use the name you provided in the Global Tool Configuration
-        sonarQube 'SonarQube' // Ensure this matches the name in Global Tool Configuration
     }
     environment {
         PATH = "/opt/apache-maven-3.5.4/bin:$PATH"
