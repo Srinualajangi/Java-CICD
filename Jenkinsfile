@@ -20,6 +20,7 @@ pipeline {
             steps {
                 echo "----------- build started ----------"
                 sh 'mvn clean deploy -Dmaven.test.skip=true'
+                sh 'ls -l target' // List the contents of the target directory
                 echo "----------- build completed ----------"
             }
         }
@@ -101,8 +102,9 @@ pipeline {
         stage("Deploy") {
             steps {
                 script {
-                    echo '<--------------- Helm Deploy Started --------------->'
-                    sh 'helm install sample-app sample-app-1.0.1'
+                    echo '<--------------- Deploy Started --------------->'
+                    // Add your deployment steps here
+                    echo '<--------------- Deploy Ended --------------->'
                 }
             }
         }
