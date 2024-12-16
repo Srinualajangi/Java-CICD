@@ -3,15 +3,16 @@ def imageName = 'srinualajangi/sample_app'
 def version   = '2.1.2'
 
 pipeline {
-    agent {
-        node {
-            label 'maven'
-        }
-    }
+    agent any
     environment {
         PATH = "/opt/apache-maven-3.9.4/bin:$PATH"
     }
     stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/Srinualajangi/Java-CICD.git', branch: 'main', credentialsId: 'github-cred'
+            }
+        }
         stage("build") {
             steps {
                 echo "----------- build started ----------"
@@ -31,8 +32,8 @@ pipeline {
                 scannerHome = tool 'satish-sonarqube-scanner'
             }
             steps {
-                withSonarQubeEnv('satish-sonarqube-server') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+                withSonarQubeEnv('SonarQube') {
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
                 }
             }
         }
@@ -52,7 +53,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Nexus Publish Started --------------->'
-                    sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://your-nexus-repo-url/repository/maven-releases/'
+                    sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://ec2-18-232-168-152.compute-1.amazonaws.com:8081/repository/maven-releases/'
                     echo '<--------------- Nexus Publish Ended --------------->'
                 }
             }
