@@ -37,7 +37,9 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     echo "----------- SonarQube analysis started ----------"
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/ -Dsonar.login=$SONAR_TOKEN"
+                    }
                     echo "----------- SonarQube analysis completed ----------"
                 }
             }
