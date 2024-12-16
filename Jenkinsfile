@@ -6,7 +6,6 @@ pipeline {
     agent any
     tools {
         maven 'Maven 3.5.4' // Use the name you provided in the Global Tool Configuration
-        sonarQube 'Sonarqube' // Use the name you provided in the Global Tool Configuration
     }
     environment {
         PATH = "/opt/apache-maven-3.5.4/bin:$PATH"
@@ -100,7 +99,6 @@ pipeline {
                 script {
                     echo '<--------------- Helm Deploy Started --------------->'
                     sh 'helm install sample-app sample-app-1.0.1'
-                    echo '<--------------- Helm Deploy Ends --------------->'
                 }
             }
         }
