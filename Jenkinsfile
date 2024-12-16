@@ -5,7 +5,7 @@ def version   = '2.1.2'
 pipeline {
     agent any
     tools {
-        maven 'Maven 3.9.4' // Use the name you provided in the Global Tool Configuration
+        maven 'Maven 3.5.4' // Use the name you provided in the Global Tool Configuration
         sonarQube 'Sonarqube' // Use the name you provided in the Global Tool Configuration
     }
     environment {
@@ -36,7 +36,7 @@ pipeline {
                 scannerHome = tool 'Sonarqube'
             }
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('Sonarqube') {
                     echo "----------- SonarQube analysis started ----------"
                     sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
                     echo "----------- SonarQube analysis completed ----------"
