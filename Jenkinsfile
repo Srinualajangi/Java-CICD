@@ -32,12 +32,12 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
-                scannerHome = tool name: 'Sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                scannerHome = tool name: 'SonarQube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
             }
             steps {
                 withSonarQubeEnv('SonarQube') {
                     echo "----------- SonarQube analysis started ----------"
-                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/"
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://your-sonarqube-server:9000/"
                     echo "----------- SonarQube analysis completed ----------"
                 }
             }
