@@ -46,4 +46,4 @@
 
 ***If you are planning to use this repo for learning, please hit the star. Thanks!***
 
-#### Author by [Harshhaa Reddy](https://github.com/NotHarshhaa)
+#### Author by [Srinu Alajangi](https://github.com/Srinualajangi)
