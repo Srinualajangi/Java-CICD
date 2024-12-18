@@ -1,6 +1,6 @@
 def registry = 'https://index.docker.io/v1/'
 def imageName = 'srinualajangi/sample_app'
-def version   = '2.1.2'
+def version   = "2.1.2-${env.BUILD_NUMBER}"
 
 pipeline {
     agent any
