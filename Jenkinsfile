@@ -63,11 +63,10 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Nexus Publish Started --------------->'
-                    sh 'ls -l target' // Verify the file exists before uploading
                     nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
-                        nexusUrl: 'http://ec2-3-91-172-213.compute-1.amazonaws.com:8081',
+                        nexusUrl: 'ec2-3-91-172-213.compute-1.amazonaws.com:8081',
                         groupId: 'com.example',
                         version: version,
                         repository: 'maven-releases',
@@ -77,15 +76,6 @@ pipeline {
                         ]
                     )
                     echo '<--------------- Nexus Publish Ended --------------->'
-                }
-            }
-        }
-        stage("Docker Build") {
-            steps {
-                script {
-                    echo '<--------------- Docker Build Started --------------->'
-                    app = docker.build(imageName + ":" + version)
-                    echo '<--------------- Docker Build Ends --------------->'
                 }
             }
         }
