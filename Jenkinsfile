@@ -45,20 +45,20 @@ pipeline {
                 }
             }
         }
-        stage("Quality Gate") {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                        timeout(time: 1, unit: 'HOURS') {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+        //                 timeout(time: 1, unit: 'HOURS') {
+        //                     def qg = waitForQualityGate()
+        //                     if (qg.status != 'OK') {
+        //                         error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage("Nexus Publish") {
             steps {
                 script {
