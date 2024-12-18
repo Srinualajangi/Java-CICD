@@ -39,7 +39,7 @@ pipeline {
                 withSonarQubeEnv('SonarQube') {
                     echo "----------- SonarQube analysis started ----------"
                     withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-18-232-168-152.compute-1.amazonaws.com:9000/ -Dsonar.login=$SONAR_TOKEN"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=http://ec2-3-91-172-213.compute-1.amazonaws.com:9000/ -Dsonar.login=$SONAR_TOKEN"
                     }
                     echo "----------- SonarQube analysis completed ----------"
                 }
@@ -66,7 +66,7 @@ pipeline {
                     nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
-                        nexusUrl: 'ec2-18-232-168-152.compute-1.amazonaws.com:8081',
+                        nexusUrl: 'http://ec2-3-91-172-213.compute-1.amazonaws.com:8081',
                         groupId: 'com.example',
                         version: version,
                         repository: 'maven-releases',
